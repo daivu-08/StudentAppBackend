@@ -14,4 +14,13 @@ public class Student {
     private int id;
     private String name;
     private int marks;
+
+    public Student() {
+    }
+
+    public Student(Student student) {
+        this.id = student.id;
+        this.name = student.name;
+        this.marks = student.marks;;
+    }
 }

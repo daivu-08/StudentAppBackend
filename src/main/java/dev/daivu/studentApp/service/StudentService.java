@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -27,4 +28,30 @@ public class StudentService {
         students=studentRepo.findAll();
         return students;
     }
+
+    public Student updateStudent(int studentId, Student newStudent) {
+        Student optionalStudent = studentRepo.findById(studentId).orElse(null);
+        if (optionalStudent!=null) {
+            Student updatedStudent = optionalStudent;
+            updatedStudent.setName(newStudent.getName());
+            updatedStudent.setMarks(newStudent.getMarks());
+            studentRepo.save(updatedStudent);
+            return updatedStudent;
+        } else {
+            // Handle case where student with given ID is not found
+            throw new RuntimeException("Student not found with id: " + studentId);
+        }
+    }
+
+    public Student deleteStudent(int id){
+        Student student = studentRepo.findById(id).orElse(null);
+        if(student!=null){
+            studentRepo.deleteById(id);
+        }else {
+            // Handle case where student with given ID is not found
+            throw new RuntimeException("Student not found with id: " + id);
+        }
+        return student;
+    }
+
 }
